@@ -34,19 +34,14 @@
         </div>  
       </div>   
       <div class="middle">
-        <!-- <div id="players" hidden>
-          <button class="button player active" onclick="setActivePlayer(event, false)" id="pianoBtn">Piano</button>
-          <button class="button player" onclick="setActivePlayer(event, true)">Synth</button> 
-        </div> -->
+        <div id="players" hidden>
+          <button class="button player active" hidden onclick="setActivePlayer(event, false)" id="pianoBtn">Piano</button>
+          <button class="button player" hidden onclick="setActivePlayer(event, true)">Synth</button> 
+        </div>
           
         <div id="transcribingMessage" hidden>
-          Longer audio takes a fair bit to transcribe, and will make your browser sluggish. Please hold while 
-          your robots are hard at work...
-          
-          <!-- <div id="safariWarning" hidden><br><br>It looks like you're using Safari! Unfortunately because of a 
-            <a href="https://github.com/WebKit/webkit/blob/4a4870b75b95a836b516163d45a5cbd6f5222562/Source/WebCore/Modules/webaudio/AudioContext.cpp#L109">WebKit bug</a>, 
-          transcription is significantly slower on Safari than other browsers.
-          </div> -->
+          Longer audio takes time to transcribe, Please have patience...
+
         </div>
         
         <div class="container" id="container" hidden>
@@ -76,11 +71,11 @@
         </div>
       </div>
       <div class="bottom">
-        <div>Made with <a href="https://magenta.tensorflow.org/js" class="img-link">
+        <!-- <div>Made with <a href="https://magenta.tensorflow.org/js" class="img-link">
           <img src="https://magenta.tensorflow.org/assets/magenta-logo.png" height="50" style="vertical-align:middle"></a>.&nbsp;
         </div>
         <div>See the code on <a href="https://glitch.com/edit/#!/piano-scribe">Glitch</a>.</div>
-      </div>
+      </div> -->
     </div>
     <script>
      if (!window.MediaRecorder) {
