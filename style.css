@@ -245,6 +245,7 @@ input[type="file"] {
 }
 
 #transcribingMessage { 
+  text-align: center !important;
   padding: 40px;
 }
 #transcribingMessage[hidden] #safariWarning {

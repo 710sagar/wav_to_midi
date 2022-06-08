@@ -13,7 +13,7 @@
     <div class="box">
       <div class="top">
         <div id="modelLoading">
-          <span>Loading model...</span>
+          <span>Getting things ready</span>
         </div>
         
         <div id="modelReady" hidden>
@@ -28,9 +28,8 @@
               <span class="loading">Transcribing...</span>
             </button>
           </div>
-          <div id="recordingError" hidden>Oh no, recording audio is not available on your device 😰. Try uploading a file instead!</div>
-          <div id="iosError" hidden>Because of some WebAudio API issues, we can't get this model to work on your iOS device. We've tested it
-            on Android and desktop Chrome/Safari/FF, and it works there, so maybe grab a different device? We're really sorry. 😰</div>
+          <div id="recordingError" hidden>Recording audio is not available on your device. Try uploading a file!</div>
+          <div id="iosError" hidden>iOS Device not supported</div>
         </div>  
       </div>   
       <div class="middle">
@@ -40,7 +39,7 @@
         </div>
           
         <div id="transcribingMessage" hidden>
-          Longer audio takes time to transcribe, Please have patience...
+          Loading.....
 
         </div>
         
@@ -71,11 +70,6 @@
         </div>
       </div>
       <div class="bottom">
-        <!-- <div>Made with <a href="https://magenta.tensorflow.org/js" class="img-link">
-          <img src="https://magenta.tensorflow.org/assets/magenta-logo.png" height="50" style="vertical-align:middle"></a>.&nbsp;
-        </div>
-        <div>See the code on <a href="https://glitch.com/edit/#!/piano-scribe">Glitch</a>.</div>
-      </div> -->
     </div>
     <script>
      if (!window.MediaRecorder) {
