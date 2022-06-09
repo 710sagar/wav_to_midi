@@ -9,13 +9,42 @@ let player = initPlayers();
 
 async function convertLink() {
   var link = document.getElementById('typeUrl').value;
-  var audio = new Audio(link);  
+  var audio = new Audio(link);  //URL.createObjectURL(fileBlob)
   audio.type = 'audio/wav';
+  audio.id = 'aud';
+  //console.log(audio);
 
   try {
-    transcribeFromFile(audio);
+    const response = await fetch(audio.src);
+    model.transcribeFromAudioURL(audio.src).then((ns) => {
+      PLAYERS.soundfont.loadSamples(ns).then(() => {
+        visualizer = new mm.Visualizer(ns, canvas, {
+            noteRGB: '255, 255, 255', 
+            activeNoteRGB: '232, 69, 164', 
+            pixelsPerTimeStep: window.innerWidth < 500 ? null: 80,
+        });
+        resetUIState();
+        showVisualizer();
+      });
+    });
+    // const response = await fetch(audio.src, {
+    //   method: 'GET',
+    //   mode: 'no-cors',
+    //   headers: {
+    //     accept: 'application/json',
+    //   },
+    // })
+    //   .then(response => response.blob())
+    //   .then(transcribeFromFile(response.blob()));
+    //var audioFile = audio[0];
+  
+    //recorder = new window.MediaRecorder(audio);
+    //audio.addEventListener('dataavailable', (e) => {
+         //requestAnimationFrame(() => requestAnimationFrame(() => transcribeFromFile(e.data)));
+      //});
+    //transcribeFromFile(audioFile);
   } catch (err) {
-    console.log('Failed to play...' + err);
+    alert('Link is protected, try uploading a file');
   }
 }
 convert.addEventListener('click', (e) =>{
