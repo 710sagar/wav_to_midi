@@ -1,49 +1,37 @@
 let visualizer;
-let recorder;
-let isRecording = false;
-let recordingBroken = false;
 const PLAYERS = {};
 
 const model = initModel();
 let player = initPlayers();
 
-btnRecord.addEventListener('click', () => {
-  // Things are broken on old ios
-  if (!navigator.mediaDevices) {
-    recordingBroken = true;
-    recordingError.hidden = false;
-    btnRecord.disabled = true;
-    return;
-  }
-  
-  if (isRecording) {
-    isRecording = false;
-    updateRecordBtn(true);
-    recorder.stop();
-  } else {
-    // Request permissions to record audio. Also this sometimes fails on Linux. I don't know.
-    navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
-      isRecording = true;
-      updateRecordBtn(false);
-      hideVisualizer();
 
-      recorder = new window.MediaRecorder(stream);
-       recorder.addEventListener('dataavailable', (e) => {
-         updateWorkingState(btnRecord, btnUpload);
-         requestAnimationFrame(() => requestAnimationFrame(() => transcribeFromFile(e.data)));
-      });
-      recorder.start();
-    }, () => {
-      recordingBroken = true;
-      recordingError.hidden = false;
-      btnRecord.disabled = true;
-    });
-  }
-});
+async function convertLink(){
+  var link = document.getElementById('typeUrl').value;
+
+  const res = await fetch(link, {
+  method: 'POST',
+  mode: 'cors',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  //body: JSON.stringify(body)
+}).then(response => response.text()) 
+.then(audio => {
+  transcribeFromFile(audio);
+});;
+
+  //fetch(link)
+}
+convert.addEventListener('click', (e) =>{
+
+  convertLink();
+
+  
+
+})
 
 fileInput.addEventListener('change', (e) => {
-  recordingError.hidden = true;
-  updateWorkingState(btnUpload, btnRecord);
+  updateWorkingState(btnUpload);
   requestAnimationFrame(() => requestAnimationFrame(() => {
     transcribeFromFile(e.target.files[0]);
     fileInput.value = null;
@@ -96,25 +84,16 @@ function startPlayer() {
   player.start(visualizer.noteSequence);
 }
 
-function updateWorkingState(active, inactive) {
+function updateWorkingState(active) {
   help.hidden = true;
   transcribingMessage.hidden = false;
   active.classList.add('working');
-  inactive.setAttribute('disabled', true);
 }
 
-function updateRecordBtn(defaultState) {
-  const el = btnRecord.firstElementChild;
-  el.textContent = defaultState ? 'Record audio' : 'Stop'; 
-}
 
 function resetUIState() {
   btnUpload.classList.remove('working');
   btnUpload.removeAttribute('disabled');
-  btnRecord.classList.remove('working');
-  if (!recordingBroken) {
-    btnRecord.removeAttribute('disabled');
-  }
 }
 
 function hideVisualizer() {
@@ -176,12 +155,10 @@ function initModel() {
     modelReady.hidden = false;
   });
   
-  // Things are slow on Safari.
   if (window.webkitOfflineAudioContext) {
     safariWarning.hidden = false;
   }
   
-  // Things are very broken on ios12.
   if (navigator.userAgent.indexOf('iPhone OS 12_0') >= 0) {
     iosError.hidden = false;
     buttons.hidden = true;
