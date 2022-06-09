@@ -252,7 +252,7 @@ input[type="file"] {
   display: none !important;
 }
 
-.input1{
+#typeUrl{
   padding: 10px 16px;
   width: 50%;
   height: 42px;
