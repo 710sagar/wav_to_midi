@@ -5,29 +5,21 @@ const model = initModel();
 let player = initPlayers();
 
 
-async function convertLink(){
+
+
+async function convertLink() {
   var link = document.getElementById('typeUrl').value;
+  var audio = new Audio(link);  
+  audio.type = 'audio/wav';
 
-  const res = await fetch(link, {
-  method: 'POST',
-  mode: 'cors',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  //body: JSON.stringify(body)
-}).then(response => response.text()) 
-.then(audio => {
-  transcribeFromFile(audio);
-});;
-
-  //fetch(link)
+  try {
+    transcribeFromFile(audio);
+  } catch (err) {
+    console.log('Failed to play...' + err);
+  }
 }
 convert.addEventListener('click', (e) =>{
-
   convertLink();
-
-  
-
 })
 
 fileInput.addEventListener('change', (e) => {
@@ -130,7 +122,7 @@ function initPlayers() {
   });
 
   PLAYERS.soundfont = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/salamander');
-  // TODO: fix this after magenta 1.1.15
+
   PLAYERS.soundfont.callbackObject = {
     run: (note) => {
       const currentNotePosition = visualizer.redraw(note);
